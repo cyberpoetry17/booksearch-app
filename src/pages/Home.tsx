@@ -1,58 +1,51 @@
 import { useEffect, useState } from "react";
 import Search from "../components/Search";
 import BookOverview from "../types/BookOverview";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import List from "../components/List";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [books, setBooks] = useState<BookOverview[]>();
+  const [books, setBooks] = useState<BookOverview[]>([]);
+  const [page, setPage] = useState(1);
 
-  //
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const [displayedBooks, setDisplayedBooks] = useState<BookOverview[]>([]);
+  const [loading, setLoading] = useState(false);
+  const booksPerPage = 10;
 
-  const navigate = useNavigate();
+  const fetchBooks = async (searchTerm: string) => {
+    setLoading(true);
 
-  const handleClick = (id: string, coverId?: string) => {
-    console.log(id, coverId, "details");
-    navigate(`/book/${id}/${coverId}`);
+    try {
+      const response = await fetch(
+        `https://openlibrary.org/search.json?q=${searchTerm}`
+      );
+      const data = await response.json();
+
+      const filteredBooks = (data.docs as BookOverview[]).filter(
+        (book) => book.cover_i !== null && book.cover_i !== undefined
+      );
+
+      setBooks(filteredBooks);
+      setDisplayedBooks(filteredBooks.slice(0, booksPerPage));
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const limit = 5;
-  const [page, setPage] = useState(1);
-  //openlibrary.org/search.json?q=the+lord+of+the+rings&limit=25&page=2
-
   useEffect(() => {
-    if (searchTerm) {
-      setIsLoading(true);
-      fetch(
-        `https://openlibrary.org/search.json?title=${searchTerm}&limit=${limit}&page=${page}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (
-            (data.docs as BookOverview[]).filter(
-              (book) => book.cover_i !== null && book.cover_i !== undefined
-            ).length < limit
-          )
-            setHasMore(false);
+    fetchBooks(searchTerm);
+  }, [searchTerm]);
 
-          setBooks(data.docs);
-        })
-        .catch((error) => console.log(error))
-        .finally(() => setIsLoading(false));
-    }
-  }, [page, searchTerm]);
+  const loadMoreBooks = () => {
+    const start = page * booksPerPage;
+    const end = start + booksPerPage;
 
-  const filteredBooks = books?.filter(
-    (book) => book.cover_i !== null && book.cover_i !== undefined
-  );
+    setDisplayedBooks((prev) => [...prev, ...books.slice(start, end)]);
 
-  const handleLoadMore = () => {
-    if (!isLoading && hasMore) {
-      setPage((prevPage) => prevPage + 1);
-    }
+    setPage((prev) => prev + 1);
   };
 
   return (
@@ -64,17 +57,19 @@ const Home = () => {
           placeholder="Search by Title"
         />
       </div>
-      {filteredBooks && (
+      {displayedBooks && (
         <div className=" my-6 w-full h-fit overflow-auto">
-          <List
-            books={filteredBooks}
-            isLoading={isLoading}
-            handleLoadMore={handleLoadMore}
-            page={page}
-            handlePage={(page: number) => setPage(page)}
-            handleClick={handleClick}
-          />
+          <List books={displayedBooks} />
         </div>
+      )}
+      {searchTerm.length > 0 && displayedBooks.length < books.length && (
+        <button
+          className="p-2 border disabled:border-amber-300"
+          onClick={loadMoreBooks}
+          disabled={loading || displayedBooks.length === books.length}
+        >
+          {loading ? "Loading..." : "Load More"}
+        </button>
       )}
     </div>
   );

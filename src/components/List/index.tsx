@@ -7,8 +7,8 @@ type ListProps = {
   page?: number;
   isLoading?: boolean;
   handleLoadMore?: () => void;
-  handlePage: (page: number) => void;
-  handleClick: (id: string, coverId?: string) => void;
+  handlePage?: (page: number) => void;
+  handleClick?: (id: string, coverId?: string) => void;
 };
 
 const List = ({
@@ -16,6 +16,7 @@ const List = ({
   handleClick,
   isLoading,
   hasMore,
+  handleLoadMore,
   page = 1,
 }: ListProps) => {
   return (
