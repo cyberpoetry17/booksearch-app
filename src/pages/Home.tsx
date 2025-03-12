@@ -1,24 +1,35 @@
 import { useEffect, useState } from "react";
-import Search from "../components/Search";
+import { useNavigate } from "react-router";
 import BookOverview from "../types/BookOverview";
-// import { useNavigate } from "react-router";
+import Search from "../components/Search";
 import List from "../components/List";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedTerm, setDebouncedTerm] = useState("");
+
   const [books, setBooks] = useState<BookOverview[]>([]);
-  const [page, setPage] = useState(1);
-
   const [displayedBooks, setDisplayedBooks] = useState<BookOverview[]>([]);
-  const [loading, setLoading] = useState(false);
-  const booksPerPage = 10;
 
-  const fetchBooks = async (searchTerm: string) => {
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const booksPerPage = 7;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedTerm(searchTerm);
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [navigate, searchTerm]);
+
+  const fetchBooks = async (debouncedTerm: string) => {
     setLoading(true);
 
     try {
       const response = await fetch(
-        `https://openlibrary.org/search.json?q=${searchTerm}`
+        `https://openlibrary.org/search.json?q=${debouncedTerm}`
       );
       const data = await response.json();
 
@@ -36,20 +47,27 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchBooks(searchTerm);
-  }, [searchTerm]);
+    fetchBooks(debouncedTerm);
+  }, [debouncedTerm]);
 
   const loadMoreBooks = () => {
-    const start = page * booksPerPage;
-    const end = start + booksPerPage;
+    const startIndex = page * booksPerPage;
+    const endIndex = startIndex + booksPerPage;
 
-    setDisplayedBooks((prev) => [...prev, ...books.slice(start, end)]);
+    setDisplayedBooks((previous) => [
+      ...previous,
+      ...books.slice(startIndex, endIndex),
+    ]);
 
-    setPage((prev) => prev + 1);
+    setPage((previousPage) => previousPage + 1);
+  };
+
+  const handleClick = (id: string, coverId?: string) => {
+    navigate(`/book/${id}/${coverId}`);
   };
 
   return (
-    <div className=" bg-neutral-100 flex flex-col gap-9 overflow-hidden">
+    <div className=" bg-neutral-100 flex flex-col gap-9 overflow-hidden justify-between">
       <div className="bg-white py-4 px-8">
         <Search
           searchTerm={searchTerm}
@@ -57,20 +75,24 @@ const Home = () => {
           placeholder="Search by Title"
         />
       </div>
+
       {displayedBooks && (
-        <div className=" my-6 w-full h-fit overflow-auto">
-          <List books={displayedBooks} />
+        <List books={displayedBooks} handleClick={handleClick} />
+      )}
+      {debouncedTerm.length > 0 && displayedBooks.length < books.length && (
+        <div className="flex justify-center items-center">
+          <button
+            className="p-1.5 px-2.5 w-fit rounded-[8px] bg-blue-500 text-white cursor-pointer disabled:cursor-not-allowed shadow-lg"
+            onClick={loadMoreBooks}
+            disabled={loading || displayedBooks.length === books.length}
+          >
+            {loading ? "Loading..." : "Load More"}
+          </button>
         </div>
       )}
-      {searchTerm.length > 0 && displayedBooks.length < books.length && (
-        <button
-          className="p-2 border disabled:border-amber-300"
-          onClick={loadMoreBooks}
-          disabled={loading || displayedBooks.length === books.length}
-        >
-          {loading ? "Loading..." : "Load More"}
-        </button>
-      )}
+      <div className="w-full h-[100px] shrink-0 bg-white">
+        this is gonna be something else
+      </div>
     </div>
   );
 };

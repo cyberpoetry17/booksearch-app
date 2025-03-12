@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import BookOverview from "../../../types/BookOverview";
 import { getLanguages } from "../utils";
 
@@ -7,19 +8,39 @@ type ListItemProps = {
 };
 
 const ListItem = ({ book, handleClick }: ListItemProps) => {
+  const { key, cover_i, title, subtitle } = book;
+  const [imageUrl, setImageUrl] = useState<string>();
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(
+          `https://covers.openlibrary.org/b/id/${cover_i}-S.jpg`
+        );
+        const blob = await response.blob();
+        const imageUrls = URL.createObjectURL(blob);
+        setImageUrl(imageUrls);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchImage();
+  }, [cover_i]);
+
   return (
     <li
-      key={book.key}
-      className="bg-white flex my-4 h-[100px]  rounded-2xl"
-      onClick={() => handleClick(book.key, book.cover_i)}
+      key={key}
+      className="bg-white flex my-4 h-[100px] min-w-[200px] rounded-2xl shadow-lg cursor-pointer overflow-hidden "
+      onClick={() => handleClick(key, cover_i)}
     >
-      <div className="bg-red w-1/5 p-1.5">
-        <img alt="hi" height={24} width={24} />
+      <div className="w-fit p-3.5 flex items-center justify-center flex-shrink-0">
+        <img alt={title} width={40} height={60} src={imageUrl} />
       </div>
-      <div className="flex flex-col flex-1">
-        <span>{book.title}</span>
+      <div className="flex flex-1 flex-col p-3.5">
+        <span>{title}</span>
         <span>{getLanguages(book)}</span>
-        <span>{book.subtitle}</span>
+        <span>{subtitle}</span>
       </div>
     </li>
   );

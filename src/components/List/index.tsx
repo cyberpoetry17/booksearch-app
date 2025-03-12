@@ -1,27 +1,18 @@
 import BookOverview from "../../types/BookOverview";
 import ListItem from "./ListItem";
-import { getKey, getRange } from "./utils";
+import { getKey } from "./utils";
 
 type ListProps = {
   books: BookOverview[];
   page?: number;
   isLoading?: boolean;
-  handleLoadMore?: () => void;
-  handlePage?: (page: number) => void;
-  handleClick?: (id: string, coverId?: string) => void;
+  handleClick: (id: string, coverId?: string) => void;
 };
 
-const List = ({
-  books,
-  handleClick,
-  isLoading,
-  hasMore,
-  handleLoadMore,
-  page = 1,
-}: ListProps) => {
+const List = ({ books, handleClick }: ListProps) => {
   return (
-    <div className="flex flex-col">
-      <ul className="px-7 ">
+    <div className="flex flex-col w-full h-fit overflow-auto">
+      <ul className="px-7">
         {books
           .filter((book) => book.cover_i !== undefined && book.cover_i !== null)
           .map((book, index) => (
@@ -34,10 +25,6 @@ const List = ({
             />
           ))}
       </ul>
-
-      {hasMore && !isLoading && (
-        <button onClick={handleLoadMore}>Load More</button>
-      )}
     </div>
   );
 };

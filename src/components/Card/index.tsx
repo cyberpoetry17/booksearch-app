@@ -1,5 +1,5 @@
 type CardProps = {
-  url: string;
+  url?: string;
   title?: string;
   subtitle?: string;
   isLoadingImage?: boolean;

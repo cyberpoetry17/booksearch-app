@@ -7,7 +7,7 @@ const Details = () => {
   const { id, coverId } = useParams();
 
   const [bookDetails, setBookDetails] = useState<BookDetails>();
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState<string>();
 
   //loading state to be ?
   const [isLoadingImage, setIsLoadingImage] = useState(true);
