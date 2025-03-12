@@ -2,48 +2,48 @@ interface BookDetails {
   first_publish_date: string;
   subtitle: string;
   title: string;
-  covers: number[]; // Array of cover IDs
-  lc_classifications: string[]; // Library of Congress classifications
-  subject_people: string[]; // People related to the book
-  key: string; // Unique key for the work
-  authors: AuthorRole[]; // List of authors
-  dewey_number: string[]; // Dewey Decimal number
+  covers: number[];
+  lc_classifications: string[];
+  subject_people: string[];
+  key: string;
+  authors: AuthorRole[];
+  dewey_number: string[];
   type: {
-    key: string; // Type key (always '/type/work' in this case)
+    key: string;
   };
-  subjects: string[]; // Array of subjects related to the book
+  subjects: string[];
   description: {
-    type: string; // Type of description ('/type/text')
-    value: string; // The description text
+    type: string;
+    value: string;
   };
   first_sentence: {
-    type: string; // Type of the sentence ('/type/text')
-    value: string; // The first sentence
+    type: string;
+    value: string;
   };
-  excerpts: Excerpt[]; // List of excerpts from the book
-  latest_revision: number; // Latest revision number
-  revision: number; // Revision number
+  excerpts: Excerpt[];
+  latest_revision: number;
+  revision: number;
   created: {
-    type: string; // Type of created field ('/type/datetime')
-    value: string; // Created datetime value
+    type: string;
+    value: string;
   };
   last_modified: {
-    type: string; // Type of last modified field ('/type/datetime')
-    value: string; // Last modified datetime value
+    type: string;
+    value: string;
   };
 }
 
 interface AuthorRole {
   type: {
-    key: string; // Type of author role (always '/type/author_role')
+    key: string;
   };
   author: {
-    key: string; // Unique author key
+    key: string;
   };
 }
 
 interface Excerpt {
-  excerpt: string; // The excerpt text
+  excerpt: string;
 }
 
 export default BookDetails;

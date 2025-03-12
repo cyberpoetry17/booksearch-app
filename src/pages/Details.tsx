@@ -9,6 +9,7 @@ const Details = () => {
   const [bookDetails, setBookDetails] = useState<BookDetails>();
   const [imageUrl, setImageUrl] = useState("");
 
+  //loading state to be ?
   const [isLoadingImage, setIsLoadingImage] = useState(true);
   const [isLoadingDetails, setIsLoadingDetails] = useState(true);
 
@@ -48,7 +49,7 @@ const Details = () => {
   }, [coverId]);
 
   return (
-    <div className="m-2 p-2 flex items-center justify-center">
+    <div className="p-[10px] flex items-center justify-center bg-neutral-100">
       <Card
         url={imageUrl}
         title={bookDetails?.title}

@@ -2,9 +2,9 @@ import { Link } from "react-router";
 
 const Navbar = () => {
   return (
-    <nav className="bg-[#40534C] p-2 m-2 rounded-sm">
+    <nav className="bg-white p-2 rounded-sm shadow-lg z-10 w-fit">
       <div className="">
-        <Link to="/" className="text-white block">
+        <Link to="/" className="text-stone-500 block">
           Home
         </Link>
       </div>

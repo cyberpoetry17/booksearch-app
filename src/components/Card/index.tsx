@@ -13,7 +13,7 @@ const Card = ({
   isLoadingDetails,
 }: CardProps) => {
   return (
-    <div className="border border-[#698a7e] hover:border-[#40534C] rounded-lg flex">
+    <div className="rounded-lg flex bg-white">
       {isLoadingImage ? (
         <div className="w-[320px] h-[500px] bg-gray-300 animate-pulse rounded-lg" />
       ) : (

@@ -9,7 +9,7 @@ const Search = ({ searchTerm, handleSearch, placeholder }: SearchProps) => {
     <>
       <label></label>
       <input
-        className="bg-white border border-gray-300 rounded-[8px] p-2 w-full hover:border-blue-500 focus:border-blue-500 focus:outline-none"
+        className="bg-slate-100 border border-gray-300 rounded-[8px] p-[4px] w-fit focus:outline-none"
         value={searchTerm}
         onChange={(e) => handleSearch(e.target.value)}
         placeholder={placeholder}
