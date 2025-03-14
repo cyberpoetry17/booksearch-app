@@ -1,18 +1,23 @@
+import { ViewedBook } from "../../../types";
 import ImageLoader from "../../Loaders/Image";
 
 type CarouselCard = {
+  book: ViewedBook;
   index: number;
-  url: string;
-  title: string;
+  handleClick?: (viewedBook: ViewedBook) => void;
 };
 
-const CarouselCard = ({ index, url, title }: CarouselCard) => {
+const CarouselCard = ({ book, index, handleClick }: CarouselCard) => {
+  const { imageUrl, title } = book;
   return (
-    <div className="flex flex-col w-[100px] h-[150px] shrink-0 items-center cursor-pointer z-10 p-2">
-      {url ? (
+    <div
+      className="flex flex-col w-[100px] h-[150px] shrink-0 items-center cursor-pointer z-10 p-2"
+      onClick={() => handleClick?.(book)}
+    >
+      {imageUrl ? (
         <img
           key={index}
-          src={url}
+          src={imageUrl}
           alt={`Book ${index}`}
           className="w-[70px] h-[100px] rounded-sm shrink-0"
         />

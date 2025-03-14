@@ -63,4 +63,5 @@ export interface ViewedBook {
   imageUrl: string;
   title: string;
   key: string;
+  coverId?: string;
 }

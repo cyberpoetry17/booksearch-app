@@ -7,11 +7,12 @@ import CarouselButton from "./CarouselButton";
 
 type CarouselProps = {
   viewedBooks: ViewedBook[];
+  handleClick: (viewedBook: ViewedBook) => void;
 };
 const ITEM_WIDTH = 100;
 const GAP_WIDTH = 16;
 
-const Carousel = ({ viewedBooks }: CarouselProps) => {
+const Carousel = ({ viewedBooks, handleClick }: CarouselProps) => {
   const [startIndex, setStartIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -102,11 +103,7 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
       >
         <div className="flex gap-4 transition-transform duration-300">
           {visibleBooks.map((book, index) => (
-            <CarouselCard
-              index={index}
-              url={book.imageUrl}
-              title={book.title}
-            />
+            <CarouselCard book={book} handleClick={handleClick} index={index} />
           ))}
         </div>
       </div>

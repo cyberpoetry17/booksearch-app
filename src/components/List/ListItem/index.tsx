@@ -6,7 +6,7 @@ import TextLoader from "../../Loaders/TextLoader";
 
 type ListItemProps = {
   book: BookOverview;
-  handleClick: (viewedBook: ViewedBook, coverId?: number) => void;
+  handleClick: (viewedBook: ViewedBook) => void;
 };
 
 const ListItem = ({ book, handleClick }: ListItemProps) => {
@@ -35,10 +35,12 @@ const ListItem = ({ book, handleClick }: ListItemProps) => {
       key={key}
       className="bg-white flex my-4 min-h-[100px] h-fit min-w-[200px] rounded-2xl shadow-lg cursor-pointer overflow-hidden "
       onClick={() =>
-        handleClick(
-          { key: key, imageUrl: imageUrl ?? "", title: title },
-          cover_i
-        )
+        handleClick({
+          key: key,
+          imageUrl: imageUrl ?? "",
+          title: title,
+          coverId: cover_i?.toString() ?? "",
+        })
       }
     >
       <div className="w-fit p-3.5 flex items-center justify-center flex-shrink-0">
