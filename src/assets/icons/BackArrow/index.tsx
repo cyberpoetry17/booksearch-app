@@ -13,7 +13,7 @@ const BackArrowIcon = ({ className }: IconProps) => (
     className={className}
   >
     <path
-      fill-rule="nonzero"
+      fillRule="nonzero"
       d="M138.43 243.58 0 122.84 140.47 0l20.92 23.91-94.92 83 445.53-.42v31.75l-445.54.41 92.89 81.02z"
     />
   </svg>

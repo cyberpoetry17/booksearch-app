@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { BookDetails } from "../types/";
 import Card from "../components/Card";
+import { useBooks } from "../hooks/useBooks";
 
 const Details = () => {
   const { id, coverId } = useParams();
+
+  const { authors } = useBooks();
 
   const [bookDetails, setBookDetails] = useState<BookDetails>();
   const [imageUrl, setImageUrl] = useState<string>();
@@ -23,7 +26,7 @@ const Details = () => {
         setBookDetails(data);
         setIsLoadingDetails(false);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -41,7 +44,7 @@ const Details = () => {
         setImageUrl(imageUrls);
         setIsLoadingImage(false);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -50,13 +53,15 @@ const Details = () => {
 
   return (
     <div className="p-[10px] flex items-center justify-center bg-[#EAF0F5]">
-      <Card
-        url={imageUrl}
-        title={bookDetails?.title}
-        subtitle={bookDetails?.subtitle}
-        isLoadingImage={isLoadingImage}
-        isLoadingDetails={isLoadingDetails}
-      />
+      {bookDetails && (
+        <Card
+          url={imageUrl}
+          book={bookDetails}
+          authors={authors}
+          isLoadingImage={isLoadingImage}
+          isLoadingDetails={isLoadingDetails}
+        />
+      )}
     </div>
   );
 };

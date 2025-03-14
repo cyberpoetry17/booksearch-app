@@ -22,6 +22,7 @@ const Home = () => {
     setPage,
     viewedBooks,
     setViewedBooks,
+    setAuthors,
   } = useBooks();
 
   const [loading, setLoading] = useState(false);
@@ -71,10 +72,15 @@ const Home = () => {
   };
 
   const handleOnBookClick = (viewedBook: ViewedBook) => {
-    navigate(`/book/${getKey(viewedBook.key)}/${viewedBook.coverId}`);
-
     if (!viewedBooks.find((book) => book.key === viewedBook.key))
       setViewedBooks((previous) => [...previous, viewedBook]);
+
+    setAuthors(
+      displayedBooks.find((book) => book.key === `${viewedBook.key}`)
+        ?.author_name ?? []
+    );
+
+    navigate(`/book/${getKey(viewedBook.key)}/${viewedBook.coverId}`);
   };
 
   const handleSearchTerm = (term: string) => setSearchTerm(term);

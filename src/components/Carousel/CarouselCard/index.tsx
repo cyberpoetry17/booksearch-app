@@ -3,28 +3,28 @@ import ImageLoader from "../../Loaders/Image";
 
 type CarouselCard = {
   book: ViewedBook;
-  index: number;
   handleClick?: (viewedBook: ViewedBook) => void;
+  index: number | string;
 };
 
-const CarouselCard = ({ book, index, handleClick }: CarouselCard) => {
+const CarouselCard = ({ book, handleClick, index }: CarouselCard) => {
   const { imageUrl, title } = book;
   return (
     <div
-      className="flex flex-col w-[100px] h-[150px] shrink-0 items-center cursor-pointer z-10 p-2"
+      className="flex flex-col min-w-[100px] h-[150px] items-center cursor-pointer z-10 p-2"
       onClick={() => handleClick?.(book)}
+      key={index}
     >
       {imageUrl ? (
         <img
-          key={index}
           src={imageUrl}
-          alt={`Book ${index}`}
+          alt={`Book ${book.key}`}
           className="w-[70px] h-[100px] rounded-sm shrink-0"
         />
       ) : (
         <ImageLoader type="medium" />
       )}
-      <span className=" relative shrink-0 whitespace-nowrap overflow-ellipsis overflow-hidden truncate w-[100px] text-center font-light">
+      <span className="relative whitespace-nowrap overflow-ellipsis overflow-hidden truncate w-[100px] text-center font-light">
         {title}
       </span>
     </div>

@@ -55,11 +55,11 @@ const Carousel = ({ viewedBooks, handleClick }: CarouselProps) => {
 
     if (totalBooks === 0) return [];
 
-    let visibleBooks = viewedBooks.slice(startIndex, startIndex + itemsPerPage);
+    let visibleBooks;
 
-    if (viewedBooks.length < itemsPerPage) {
-      //resolve this bug here
-    } else {
+    if (viewedBooks.length < itemsPerPage) visibleBooks = [...viewedBooks];
+    else {
+      visibleBooks = viewedBooks.slice(startIndex, startIndex + itemsPerPage);
       if (visibleBooks.length < itemsPerPage) {
         const overflowCount = itemsPerPage - visibleBooks.length;
         visibleBooks = visibleBooks.concat(viewedBooks.slice(0, overflowCount));
@@ -71,26 +71,16 @@ const Carousel = ({ viewedBooks, handleClick }: CarouselProps) => {
 
   const visibleBooks = getVisibleBooks(viewedBooks, startIndex, itemsPerPage);
 
-  console.log(
-    "visible books: ",
-    visibleBooks,
-    "startIndex: ",
-    startIndex,
-    "items per page: ",
-    itemsPerPage
-  );
-
-  const handlePrevious = () => {
+  const handlePrevious = () =>
     setStartIndex(
       (prev) => (prev - 1 + viewedBooks.length) % viewedBooks.length
     );
-  };
 
   const handleNext = () =>
     setStartIndex((prev) => (prev + 1) % viewedBooks.length);
 
   return (
-    <div className="flex items-center justify-center gap-4 w-full relative">
+    <div className="flex items-center justify-center gap-4 min-w-[100px] relative">
       <CarouselButton
         onClick={handlePrevious}
         disabled={viewedBooks.length < itemsPerPage}
@@ -101,9 +91,13 @@ const Carousel = ({ viewedBooks, handleClick }: CarouselProps) => {
         ref={carouselRef}
         className="flex w-full overflow-hidden justify-start"
       >
-        <div className="flex gap-4 transition-transform duration-300">
+        <div className="flex gap-4">
           {visibleBooks.map((book, index) => (
-            <CarouselCard book={book} handleClick={handleClick} index={index} />
+            <CarouselCard
+              book={book}
+              handleClick={handleClick}
+              index={book.key ?? index}
+            />
           ))}
         </div>
       </div>
