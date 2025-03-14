@@ -16,7 +16,7 @@ const Navbar = () => {
           }
         >
           <div>
-            <HomeIcon />
+            <HomeIcon className="w-[20px] h-[20px]" />
           </div>
           Home
         </NavLink>

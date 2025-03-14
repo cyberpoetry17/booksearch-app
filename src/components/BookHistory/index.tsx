@@ -1,5 +1,5 @@
 import { useBooks } from "../../hooks/useBooks";
-import Carousel from "./Carousel";
+import Carousel from "../Carousel";
 
 const BookHistory = () => {
   const { viewedBooks } = useBooks();

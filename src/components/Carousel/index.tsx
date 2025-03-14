@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { ViewedBook } from "../../../types";
+import { ViewedBook } from "../../types";
+import LeftArrowIcon from "../../assets/icons/LeftArrow";
+import RightArrowIcon from "../../assets/icons/RightArrow";
 import CarouselCard from "./CarouselCard";
 
 type CarouselProps = {
@@ -73,16 +75,16 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
   const handleNext = () =>
     setStartIndex((prev) => (prev + 1) % viewedBooks.length);
 
-  console.log(startIndex);
   return (
     <div className="flex items-center justify-center gap-4 w-full relative">
       <button
-        className="text-2xl p-2 rounded-full bg-gray-200 hover:bg-gray-300 disabled:cursor-not-allowed disabled:bg-red w-[50px]"
+        className="text-2xl p-2 rounded-full disabled:cursor-not-allowed disabled:bg-red w-[50px]"
         onClick={handlePrevious}
         disabled={viewedBooks.length < itemsPerPage}
       >
-        {"<"}
+        <LeftArrowIcon className="w-[20px] h-[30px] text-neutral-600 cursor-pointer" />
       </button>
+
       <div
         ref={carouselRef}
         className="flex w-full overflow-hidden justify-start"
@@ -99,11 +101,11 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
       </div>
 
       <button
-        className="text-2xl p-2 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 w-[50px] disabled:cursor-not-allowed"
+        className="text-2xl p-2 rounded-full  w-[50px] disabled:cursor-not-allowed"
         onClick={handleNext}
         disabled={viewedBooks.length < itemsPerPage}
       >
-        {">"}
+        <RightArrowIcon className="w-[20px] h-[30px] text-neutral-600 cursor-pointer" />
       </button>
     </div>
   );

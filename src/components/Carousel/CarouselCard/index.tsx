@@ -1,4 +1,4 @@
-import ImageLoader from "../../../Loaders/Image";
+import ImageLoader from "../../Loaders/Image";
 
 type CarouselCard = {
   index: number;

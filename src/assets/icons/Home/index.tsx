@@ -1,4 +1,8 @@
-const HomeIcon = () => {
+export type IconProps = {
+  className?: string;
+};
+
+const HomeIcon = ({ className = "" }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +13,7 @@ const HomeIcon = () => {
       fill="currentColor"
       clip-rule="evenodd"
       viewBox="0 0 511 511.832"
-      className="w-[20px] h-[20px]"
+      className={className}
     >
       <path
         fill-rule="nonzero"
