@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { BookOverview, ViewedBook } from "../../../types/";
 import { getLanguages } from "../utils";
+import ImageLoader from "../../Loaders/Image";
+import TextLoader from "../../Loaders/TextLoader";
 
 type ListItemProps = {
   book: BookOverview;
@@ -40,12 +42,28 @@ const ListItem = ({ book, handleClick }: ListItemProps) => {
       }
     >
       <div className="w-fit p-3.5 flex items-center justify-center flex-shrink-0">
-        <img alt={title} width={40} height={60} src={imageUrl} />
+        {imageUrl ? (
+          <img alt={title} width={40} height={60} src={imageUrl} />
+        ) : (
+          <ImageLoader />
+        )}
       </div>
       <div className="flex flex-1 flex-col p-3.5">
-        <span className="font-semibold">{title}</span>
-        <span className="font-medium">{author_name}</span>
-        <span className="font-light">{getLanguages(book)}</span>
+        {title ? (
+          <span className="font-semibold">{title}</span>
+        ) : (
+          <TextLoader />
+        )}
+        {author_name ? (
+          <span className="font-medium">{author_name}</span>
+        ) : (
+          <TextLoader />
+        )}
+        {book.language ? (
+          <span className="font-light">{getLanguages(book)}</span>
+        ) : (
+          <TextLoader />
+        )}
       </div>
     </li>
   );

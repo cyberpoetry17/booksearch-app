@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import HomeIcon from "../../assets/icons/Home";
 
 const Navbar = () => {
   return (
@@ -7,11 +8,16 @@ const Navbar = () => {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `text-white rounded-md ${
-              isActive ? "bg-[#0056FF]" : "hover:bg-blue-400"
+            `rounded-md flex gap-1 p-2 ${
+              isActive
+                ? "bg-[#0056FF] text-white"
+                : "hover:bg-blue-100 text-neutral-600"
             }`
           }
         >
+          <div>
+            <HomeIcon />
+          </div>
           Home
         </NavLink>
       </div>

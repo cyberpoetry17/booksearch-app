@@ -32,7 +32,7 @@ const Home = () => {
 
       try {
         const response = await fetch(
-          `https://openlibrary.org/search.json?q=${searchTerm}`
+          `https://openlibrary.org/search.json?q=${searchTerm.trim()}`
         );
         const data = await response.json();
 

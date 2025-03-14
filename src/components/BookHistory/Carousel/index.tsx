@@ -32,9 +32,6 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
     }
   };
 
-  console.log(startIndex, "startIndex");
-  console.log(itemsPerPage, "items per page");
-
   useEffect(() => {
     calculateItemsPerPage();
     window.addEventListener("resize", calculateItemsPerPage);
@@ -76,20 +73,16 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
   const handleNext = () =>
     setStartIndex((prev) => (prev + 1) % viewedBooks.length);
 
-  const canGoNext = true;
-
   console.log(startIndex);
   return (
     <div className="flex items-center justify-center gap-4 w-full relative">
-      {canGoNext && (
-        <button
-          className="text-2xl p-2 rounded-full bg-gray-200 hover:bg-gray-300 disabled:cursor-not-allowed disabled:bg-red w-[50px]"
-          onClick={handlePrevious}
-          disabled={viewedBooks.length < itemsPerPage}
-        >
-          {"<"}
-        </button>
-      )}
+      <button
+        className="text-2xl p-2 rounded-full bg-gray-200 hover:bg-gray-300 disabled:cursor-not-allowed disabled:bg-red w-[50px]"
+        onClick={handlePrevious}
+        disabled={viewedBooks.length < itemsPerPage}
+      >
+        {"<"}
+      </button>
       <div
         ref={carouselRef}
         className="flex w-full overflow-hidden justify-start"
@@ -105,15 +98,13 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
         </div>
       </div>
 
-      {canGoNext && (
-        <button
-          className="text-2xl p-2 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 w-[50px] disabled:cursor-not-allowed"
-          onClick={handleNext}
-          disabled={viewedBooks.length < itemsPerPage}
-        >
-          {">"}
-        </button>
-      )}
+      <button
+        className="text-2xl p-2 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 w-[50px] disabled:cursor-not-allowed"
+        onClick={handleNext}
+        disabled={viewedBooks.length < itemsPerPage}
+      >
+        {">"}
+      </button>
     </div>
   );
 };

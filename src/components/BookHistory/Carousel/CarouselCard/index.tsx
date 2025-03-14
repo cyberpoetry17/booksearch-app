@@ -1,3 +1,5 @@
+import ImageLoader from "../../../Loaders/Image";
+
 type CarouselCard = {
   index: number;
   url: string;
@@ -7,12 +9,16 @@ type CarouselCard = {
 const CarouselCard = ({ index, url, title }: CarouselCard) => {
   return (
     <div className="flex flex-col w-[100px] h-[150px] shrink-0 items-center  cursor-pointer z-10 p-2">
-      <img
-        key={index}
-        src={url}
-        alt={`Book ${index}`}
-        className="w-[70px] h-[100px] rounded-sm shrink-0"
-      />
+      {url ? (
+        <img
+          key={index}
+          src={url}
+          alt={`Book ${index}`}
+          className="w-[70px] h-[100px] rounded-sm shrink-0"
+        />
+      ) : (
+        <ImageLoader type="medium" />
+      )}
       <h1 className="wrap overflow-hidden text-ellipsis whitespace-normal shrink">
         {title}
       </h1>

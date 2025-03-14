@@ -1,3 +1,4 @@
+import NoData from "../../assets/icons/NoData";
 import { BookOverview, ViewedBook } from "../../types/index";
 import ListItem from "./ListItem";
 
@@ -26,7 +27,7 @@ const List = ({ books, handleClick }: ListProps) => {
               />
             ))
         ) : (
-          <>No data to show</>
+          <NoData />
         )}
       </ul>
     </div>
