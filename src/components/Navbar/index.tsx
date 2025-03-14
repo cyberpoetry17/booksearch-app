@@ -1,12 +1,25 @@
-import { Link } from "react-router";
+import { NavLink } from "react-router";
+import HomeIcon from "../../assets/icons/Home";
 
 const Navbar = () => {
   return (
-    <nav className="bg-[#40534C] p-2 m-2 rounded-sm">
+    <nav className="bg-white px-2 rounded-sm shadow-lg z-10 w-fit py-4">
       <div className="">
-        <Link to="/" className="text-white block">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `rounded-md flex gap-1 p-2 ${
+              isActive
+                ? "bg-[#0056FF] text-white"
+                : "hover:bg-blue-100 text-neutral-600"
+            }`
+          }
+        >
+          <div>
+            <HomeIcon />
+          </div>
           Home
-        </Link>
+        </NavLink>
       </div>
     </nav>
   );

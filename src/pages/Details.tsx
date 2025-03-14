@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import BookDetails from "../types/BookDetails";
+import { BookDetails } from "../types/";
 import Card from "../components/Card";
 
 const Details = () => {
   const { id, coverId } = useParams();
 
   const [bookDetails, setBookDetails] = useState<BookDetails>();
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState<string>();
 
+  //loading state to be ?
   const [isLoadingImage, setIsLoadingImage] = useState(true);
   const [isLoadingDetails, setIsLoadingDetails] = useState(true);
 
@@ -48,7 +49,7 @@ const Details = () => {
   }, [coverId]);
 
   return (
-    <div className="m-2 p-2 flex items-center justify-center">
+    <div className="p-[10px] flex items-center justify-center bg-[#EAF0F5]">
       <Card
         url={imageUrl}
         title={bookDetails?.title}

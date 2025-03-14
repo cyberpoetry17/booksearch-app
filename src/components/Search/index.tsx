@@ -1,6 +1,6 @@
 type SearchProps = {
   searchTerm: string;
-  handleSearch: (newSearchTerms: string) => void;
+  handleSearch: (searchTerm: string) => void;
   placeholder?: string;
 };
 
@@ -9,9 +9,11 @@ const Search = ({ searchTerm, handleSearch, placeholder }: SearchProps) => {
     <>
       <label></label>
       <input
-        className="bg-white border border-gray-300 rounded-[8px] p-2 w-full hover:border-blue-500 focus:border-blue-500 focus:outline-none"
+        className="bg-[#F0F5FF] border border-gray-300 rounded-[8px] p-[4px] w-fit focus:outline-none"
         value={searchTerm}
-        onChange={(e) => handleSearch(e.target.value)}
+        onChange={(e) => {
+          handleSearch(e.target.value.toLowerCase());
+        }}
         placeholder={placeholder}
       />
     </>
