@@ -3,7 +3,6 @@ import Carousel from "../Carousel";
 
 const BookHistory = () => {
   const { viewedBooks } = useBooks();
-  console.log(viewedBooks, "is something");
 
   return viewedBooks.length > 0 ? (
     <div className="w-auto h-fit shrink-0 bg-white p-4 items-end rounded-2xl m-8">

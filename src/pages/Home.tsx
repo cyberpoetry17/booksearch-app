@@ -7,6 +7,8 @@ import { useBooks } from "../hooks/useBooks";
 import { getKey } from "../components/List/utils";
 import BookHistory from "../components/BookHistory";
 
+const BOOKS_PER_PAGE = 7;
+
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -22,7 +24,6 @@ const Home = () => {
   } = useBooks();
 
   const [loading, setLoading] = useState(false);
-  const booksPerPage = 7;
 
   const navigate = useNavigate();
 
@@ -41,7 +42,7 @@ const Home = () => {
         );
 
         setBooks(filteredBooks);
-        setDisplayedBooks(filteredBooks.slice(0, booksPerPage));
+        setDisplayedBooks(filteredBooks.slice(0, BOOKS_PER_PAGE));
       } catch (error) {
         console.error("Error fetching books:", error);
       } finally {
@@ -52,8 +53,8 @@ const Home = () => {
   );
 
   const loadMoreBooks = () => {
-    const startIndex = page * booksPerPage;
-    const endIndex = startIndex + booksPerPage;
+    const startIndex = page * BOOKS_PER_PAGE;
+    const endIndex = startIndex + BOOKS_PER_PAGE;
 
     setDisplayedBooks((previous: BookOverview[]) => [
       ...previous,

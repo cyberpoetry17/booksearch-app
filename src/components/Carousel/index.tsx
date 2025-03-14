@@ -3,10 +3,13 @@ import { ViewedBook } from "../../types";
 import LeftArrowIcon from "../../assets/icons/LeftArrow";
 import RightArrowIcon from "../../assets/icons/RightArrow";
 import CarouselCard from "./CarouselCard";
+import CarouselButton from "./CarouselButton";
 
 type CarouselProps = {
   viewedBooks: ViewedBook[];
 };
+const ITEM_WIDTH = 100;
+const GAP_WIDTH = 16;
 
 const Carousel = ({ viewedBooks }: CarouselProps) => {
   const [startIndex, setStartIndex] = useState(0);
@@ -16,8 +19,8 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
   const calculateItemsPerPage = () => {
     if (carouselRef.current) {
       const containerWidth = carouselRef.current.offsetWidth;
-      const itemWidth = 100;
-      const gapWidth = 16;
+      const itemWidth = ITEM_WIDTH;
+      const gapWidth = GAP_WIDTH;
 
       const itemWithGap = itemWidth + gapWidth;
 
@@ -54,7 +57,7 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
     let visibleBooks = viewedBooks.slice(startIndex, startIndex + itemsPerPage);
 
     if (viewedBooks.length < itemsPerPage) {
-      //
+      //resolve this bug here
     } else {
       if (visibleBooks.length < itemsPerPage) {
         const overflowCount = itemsPerPage - visibleBooks.length;
@@ -64,7 +67,17 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
 
     return visibleBooks;
   };
+
   const visibleBooks = getVisibleBooks(viewedBooks, startIndex, itemsPerPage);
+
+  console.log(
+    "visible books: ",
+    visibleBooks,
+    "startIndex: ",
+    startIndex,
+    "items per page: ",
+    itemsPerPage
+  );
 
   const handlePrevious = () => {
     setStartIndex(
@@ -77,14 +90,12 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
 
   return (
     <div className="flex items-center justify-center gap-4 w-full relative">
-      <button
-        className="text-2xl p-2 rounded-full disabled:cursor-not-allowed disabled:bg-red w-[50px]"
+      <CarouselButton
         onClick={handlePrevious}
         disabled={viewedBooks.length < itemsPerPage}
       >
-        <LeftArrowIcon className="w-[20px] h-[30px] text-neutral-600 cursor-pointer" />
-      </button>
-
+        <LeftArrowIcon className="w-[20px] h-[30px] cursor-pointer" />
+      </CarouselButton>
       <div
         ref={carouselRef}
         className="flex w-full overflow-hidden justify-start"
@@ -99,14 +110,12 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
           ))}
         </div>
       </div>
-
-      <button
-        className="text-2xl p-2 rounded-full  w-[50px] disabled:cursor-not-allowed"
+      <CarouselButton
         onClick={handleNext}
         disabled={viewedBooks.length < itemsPerPage}
       >
-        <RightArrowIcon className="w-[20px] h-[30px] text-neutral-600 cursor-pointer" />
-      </button>
+        <RightArrowIcon className="w-[20px] h-[30px] cursor-pointer" />
+      </CarouselButton>
     </div>
   );
 };

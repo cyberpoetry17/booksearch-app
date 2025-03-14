@@ -8,7 +8,7 @@ type CarouselCard = {
 
 const CarouselCard = ({ index, url, title }: CarouselCard) => {
   return (
-    <div className="flex flex-col w-[100px] h-[150px] shrink-0 items-center  cursor-pointer z-10 p-2">
+    <div className="flex flex-col w-[100px] h-[150px] shrink-0 items-center cursor-pointer z-10 p-2">
       {url ? (
         <img
           key={index}
@@ -19,9 +19,9 @@ const CarouselCard = ({ index, url, title }: CarouselCard) => {
       ) : (
         <ImageLoader type="medium" />
       )}
-      <h1 className="wrap overflow-hidden text-ellipsis whitespace-normal shrink">
+      <span className=" relative shrink-0 whitespace-nowrap overflow-ellipsis overflow-hidden truncate w-[100px] text-center font-light">
         {title}
-      </h1>
+      </span>
     </div>
   );
 };
