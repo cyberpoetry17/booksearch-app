@@ -11,7 +11,7 @@ const CarouselCard = ({ book, handleClick, index }: CarouselCard) => {
   const { imageUrl, title } = book;
   return (
     <div
-      className="flex flex-col min-w-[100px] h-[150px] items-center cursor-pointer z-10 p-2"
+      className="flex flex-col h-[150px] max-w-[100px] items-center cursor-pointer p-2"
       onClick={() => handleClick?.(book)}
       key={index}
     >
@@ -19,14 +19,12 @@ const CarouselCard = ({ book, handleClick, index }: CarouselCard) => {
         <img
           src={imageUrl}
           alt={`Book ${book.key}`}
-          className="w-[70px] h-[100px] rounded-sm shrink-0"
+          className="w-[70px] h-[100px] rounded-sm "
         />
       ) : (
         <ImageLoader type="medium" />
       )}
-      <span className="relative whitespace-nowrap overflow-ellipsis overflow-hidden truncate w-[100px] text-center font-light">
-        {title}
-      </span>
+      <span className="max-w-[100px] text-center font-light">{title}</span>
     </div>
   );
 };
