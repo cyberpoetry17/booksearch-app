@@ -19,11 +19,14 @@ const ListItem = ({ book, handleClick }: ListItemProps) => {
         const response = await fetch(
           `https://covers.openlibrary.org/b/id/${cover_i}-S.jpg`
         );
+        if (!response.ok) {
+          throw new Error("Something went wrong!");
+        }
         const blob = await response.blob();
         const imageUrls = URL.createObjectURL(blob);
         setImageUrl(imageUrls);
       } catch (error) {
-        console.log(error);
+        console.error(`Book overview image fetching: ${error} `);
       }
     };
 

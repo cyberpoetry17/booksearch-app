@@ -38,6 +38,10 @@ const Home = () => {
         const response = await fetch(
           `https://openlibrary.org/search.json?q=${searchTerm.trim()}`
         );
+        if (!response.ok) {
+          throw new Error("Something went wrong!");
+        }
+
         const data = await response.json();
 
         const filteredBooks = (data.docs as BookOverview[]).filter(
@@ -51,7 +55,7 @@ const Home = () => {
         setBooks(filteredBooks);
         setDisplayedBooks(filteredBooks.slice(0, BOOKS_PER_PAGE));
       } catch (error) {
-        console.error("Error fetching books:", error);
+        console.error("Book details fetching: ", error);
       } finally {
         setLoading(false);
       }
@@ -88,7 +92,7 @@ const Home = () => {
   const onSearchButtonClick = () => fetchBooks(searchTerm);
 
   return (
-    <div className=" bg-[#EAF0F5] grid grid-rows-[auto_1fr_auto] overflow-hidden gap-2 pb-2 h-screen">
+    <div className=" bg-[#EAF0F5] grid grid-rows-[auto_1fr_auto] overflow-hidden gap-2  pb-2 h-screen">
       <Toolbar
         searchTerm={searchTerm}
         handleSearchTerm={handleSearchTerm}

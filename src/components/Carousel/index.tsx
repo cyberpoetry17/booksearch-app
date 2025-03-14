@@ -80,7 +80,7 @@ const Carousel = ({ viewedBooks, handleClick }: CarouselProps) => {
     setStartIndex((prev) => (prev + 1) % viewedBooks.length);
 
   return (
-    <div className="flex items-center justify-center gap-4 min-w-[100px] relative">
+    <div className="flex items-center justify-center gap-4 min-w-[100px] ">
       <CarouselButton
         onClick={handlePrevious}
         disabled={viewedBooks.length < itemsPerPage}

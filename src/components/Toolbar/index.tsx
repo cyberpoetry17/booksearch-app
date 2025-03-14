@@ -1,4 +1,5 @@
 import Search from "../Search";
+
 type ToolbarProps = {
   searchTerm: string;
   handleSearchTerm: (term: string) => void;
@@ -26,7 +27,7 @@ const Toolbar = ({
           Search
         </button>
       </div>
-      <img src="../public/bookSearch.png" alt="Logo" className="h-[36px]"></img>
+      <img src="public/bookSearch.png" alt="Logo" className="h-[36px]"></img>
     </div>
   );
 };
