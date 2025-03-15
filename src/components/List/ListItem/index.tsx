@@ -3,6 +3,7 @@ import { BookOverview, ViewedBook } from "../../../types/";
 import { getLanguages } from "../utils";
 import ImageLoader from "../../Loaders/Image";
 import TextLoader from "../../Loaders/TextLoader";
+import { COVER_URL_BASE } from "../../../constants";
 
 type ListItemProps = {
   book: BookOverview;
@@ -16,9 +17,7 @@ const ListItem = ({ book, handleClick }: ListItemProps) => {
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const response = await fetch(
-          `https://covers.openlibrary.org/b/id/${cover_i}-S.jpg`
-        );
+        const response = await fetch(`${COVER_URL_BASE}${cover_i}-S.jpg`);
         if (!response.ok) {
           throw new Error("Something went wrong!");
         }

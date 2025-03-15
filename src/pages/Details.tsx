@@ -4,7 +4,7 @@ import { BookDetails } from "../types/";
 import Card from "../components/Card";
 import { useBooks } from "../hooks/useBooks";
 import ImageLoader from "../components/Loaders/Image";
-import { URL_BASE } from "../constants";
+import { COVER_URL_BASE, URL_BASE } from "../constants";
 
 const Details = () => {
   const { id, coverId } = useParams();
@@ -44,7 +44,7 @@ const Details = () => {
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const response = await fetch(`${URL_BASE}b/id/${coverId}-L.jpg`);
+        const response = await fetch(`${COVER_URL_BASE}${coverId}-L.jpg`);
         if (!response.ok) {
           throw new Error("Something went wrong!");
         }
