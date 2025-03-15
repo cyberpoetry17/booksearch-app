@@ -1,20 +1,22 @@
-import NoData from "../../assets/icons/NoData";
 import { BookOverview, ViewedBook } from "../../types/index";
 import SpinningLoader from "../Loaders/LoadingScreen";
+import NoData from "../NoData";
 import ListItem from "./ListItem";
 
 type ListProps = {
   books: BookOverview[];
   isLoading?: boolean;
   errorNoData?: boolean;
+  errorFetching?: boolean;
   handleClick: (viewedBook: ViewedBook, coverId?: number) => void;
 };
 
-const BOOKS_NOT_FOUND = "Ooops! Books not found!";
+const BOOKS_NOT_FOUND_TEXT = "Ooops! Books not found!";
 
 const List = ({
   books,
   handleClick,
+  errorFetching = false,
   isLoading = false,
   errorNoData = false,
 }: ListProps) => {
@@ -38,12 +40,14 @@ const List = ({
         </ul>
       ) : (
         <div className="flex justify-center items-center h-full">
-          {isLoading && <SpinningLoader />}
-          {!isLoading && errorNoData && (
-            <h1 className="flex flex-col items-center font-bold text-neutral-400">
-              <NoData className="w-[100px] h-[100px]  justify-center items-center " />
-              {BOOKS_NOT_FOUND}
-            </h1>
+          {isLoading ? (
+            <SpinningLoader />
+          ) : errorFetching ? (
+            <NoData
+              text={"Ooops! Something went wrong while fetching books!"}
+            />
+          ) : (
+            errorNoData && <NoData text={BOOKS_NOT_FOUND_TEXT} />
           )}
         </div>
       )}

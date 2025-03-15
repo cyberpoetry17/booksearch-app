@@ -2,6 +2,8 @@ import { matchPath, NavLink, useLocation } from "react-router";
 import HomeIcon from "../../assets/icons/Home";
 import BackArrowIcon from "../../assets/icons/BackArrow";
 
+const ICON_STYLES = "w-[20px] h-[20px]";
+
 const Navbar = () => {
   const location = useLocation();
   const isDetailsPageActive = matchPath(
@@ -21,15 +23,15 @@ const Navbar = () => {
           }`
         }
       >
-        <HomeIcon className="w-[20px] h-[20px]" />
-        Home
+        <HomeIcon className={ICON_STYLES} />
+        <span className="hidden sm:block">Home</span>
       </NavLink>
       {isDetailsPageActive && (
         <NavLink
           to="/"
           className="rounded-md flex gap-1 p-2 h-[36px] hover:bg-blue-100 text-neutral-600 items-center justify-center"
         >
-          <BackArrowIcon className="w-[20px] h-[20px]" />
+          <BackArrowIcon className={ICON_STYLES} />
         </NavLink>
       )}
     </nav>

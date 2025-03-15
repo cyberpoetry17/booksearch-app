@@ -1,12 +1,7 @@
-import NoData from "../assets/icons/NoData";
+import NoData from "../components/NoData";
 
-const NotFound = () => {
-  return (
-    <div className="w-full bg-[#EAF0F5] flex flex-col justify-center items-center font-bold text-neutral-400">
-      <NoData className="w-[100px] h-[100px]" />
-      Ooops! 404! Page not found.
-    </div>
-  );
-};
+const PAGE_NOT_FOUND_TEXT = "Ooops! 404! Page not found.";
+
+const NotFound = () => <NoData text={PAGE_NOT_FOUND_TEXT} />;
 
 export default NotFound;

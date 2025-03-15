@@ -9,6 +9,7 @@ type CarouselProps = {
   viewedBooks: ViewedBook[];
   handleClick: (viewedBook: ViewedBook) => void;
 };
+
 const ITEM_WIDTH = 100;
 const GAP_WIDTH = 16;
 

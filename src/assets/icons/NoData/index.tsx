@@ -1,6 +1,6 @@
 import { IconProps } from "../Home";
 
-const NoData = ({ className = "" }: IconProps) => (
+const NoDataIcon = ({ className = "" }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     shapeRendering="geometricPrecision"
@@ -19,4 +19,4 @@ const NoData = ({ className = "" }: IconProps) => (
   </svg>
 );
 
-export default NoData;
+export default NoDataIcon;

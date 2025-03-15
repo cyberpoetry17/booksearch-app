@@ -7,8 +7,11 @@ import BookHistory from "../components/BookHistory";
 import SpinningLoader from "../components/Loaders/LoadingScreen";
 import List from "../components/List";
 import Toolbar from "../components/Toolbar";
+import Button from "../components/Button";
+import { URL_BASE } from "../constants";
 
 const BOOKS_PER_PAGE = 7;
+const LOAD_MORE = "Load more";
 
 const Home = () => {
   const {
@@ -25,20 +28,23 @@ const Home = () => {
     setAuthors,
   } = useBooks();
 
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorNoData, setErrorNoData] = useState(false);
+
+  const [errorFetching, setErrorFetching] = useState(false);
 
   const navigate = useNavigate();
 
   const fetchBooks = useCallback(
     async (searchTerm: string) => {
-      setLoading(true);
+      setIsLoading(true);
 
       try {
         const response = await fetch(
-          `https://openlibrary.org/search.json?q=${searchTerm.trim()}`
+          `${URL_BASE}search.json?q=${searchTerm.trim()}`
         );
         if (!response.ok) {
+          setErrorFetching(true);
           throw new Error("Something went wrong!");
         }
 
@@ -55,9 +61,9 @@ const Home = () => {
         setBooks(filteredBooks);
         setDisplayedBooks(filteredBooks.slice(0, BOOKS_PER_PAGE));
       } catch (error) {
-        console.error("Book details fetching: ", error);
+        console.error("Book overview fetching: ", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     },
     [setBooks, setDisplayedBooks]
@@ -92,7 +98,7 @@ const Home = () => {
   const onSearchButtonClick = () => fetchBooks(searchTerm);
 
   return (
-    <div className=" bg-[#EAF0F5] grid grid-rows-[auto_1fr_auto] overflow-hidden gap-2  pb-2 h-screen">
+    <div className="bg-[#EAF0F5] grid grid-rows-[auto_1fr_auto] overflow-hidden gap-2 pb-2 h-screen">
       <Toolbar
         searchTerm={searchTerm}
         handleSearchTerm={handleSearchTerm}
@@ -100,24 +106,24 @@ const Home = () => {
       />
       {displayedBooks && (
         <List
-          isLoading={loading}
+          isLoading={isLoading}
           books={displayedBooks}
           handleClick={handleOnBookClick}
           errorNoData={errorNoData}
+          errorFetching={errorFetching}
         />
       )}
       {displayedBooks.length > 0 && displayedBooks.length <= books.length && (
         <div className="flex justify-center items-center">
-          {loading ? (
+          {isLoading ? (
             <SpinningLoader />
           ) : (
-            <button
-              className="p-1.5 px-2.5 w-fit rounded-[8px] bg-[#E7F0FC] text-[#497BDF] cursor-pointer disabled:cursor-not-allowed shadow-lg"
+            <Button
               onClick={loadMoreBooks}
-              disabled={loading || displayedBooks.length === books.length}
-            >
-              Load More
-            </button>
+              text={LOAD_MORE}
+              variant="load"
+              disabled={isLoading || displayedBooks.length === books.length}
+            />
           )}
         </div>
       )}

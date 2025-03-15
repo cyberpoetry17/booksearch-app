@@ -2,6 +2,9 @@ type ImageLoader = {
   type?: "small" | "medium" | "large" | "background";
 };
 
+// const DEFAULT_STYLES =
+//   "animate-pulse w-[40px] h-[60px] bg-neutral-200 shrink-0 z-20";
+
 const ImageLoader = ({ type = "small" }: ImageLoader) => {
   switch (type) {
     case "small":

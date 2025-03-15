@@ -1,3 +1,4 @@
+import Button from "../Button";
 import Search from "../Search";
 
 type ToolbarProps = {
@@ -5,6 +6,9 @@ type ToolbarProps = {
   handleSearchTerm: (term: string) => void;
   onSearchButtonClick: () => void;
 };
+
+const SEARCH_BY_TITLE_PLACEHOLDER = "Search book by Title";
+const SEARCH_BUTTON_TEXT = "Search";
 
 const Toolbar = ({
   searchTerm,
@@ -17,15 +21,13 @@ const Toolbar = ({
         <Search
           searchTerm={searchTerm}
           handleSearch={handleSearchTerm}
-          placeholder="Search by Title"
+          placeholder={SEARCH_BY_TITLE_PLACEHOLDER}
         />
-        <button
-          className="rounded-[8px] bg-[#0056FF] text-white cursor-pointer disabled:cursor-not-allowed shadow-lg p-1.5 px-2.5 disabled:bg-neutral-300"
+        <Button
           onClick={onSearchButtonClick}
           disabled={!searchTerm}
-        >
-          Search
-        </button>
+          text={SEARCH_BUTTON_TEXT}
+        />
       </div>
       <img src="public/bookSearch.png" alt="Logo" className="h-[36px]"></img>
     </div>
