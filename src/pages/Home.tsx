@@ -11,7 +11,7 @@ import Button from "../components/Button";
 import { URL_BASE } from "../constants";
 
 const BOOKS_PER_PAGE = 7;
-const LOAD_MORE = "Load more";
+const LOAD_MORE_TEXT = "Load more";
 
 const Home = () => {
   const {
@@ -120,7 +120,7 @@ const Home = () => {
           ) : (
             <Button
               onClick={loadMoreBooks}
-              text={LOAD_MORE}
+              text={LOAD_MORE_TEXT}
               variant="load"
               disabled={isLoading || displayedBooks.length === books.length}
             />

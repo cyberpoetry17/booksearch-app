@@ -7,7 +7,7 @@ type SearchProps = {
 const Search = ({ searchTerm, handleSearch, placeholder }: SearchProps) => {
   return (
     <input
-      className="bg-[#F0F5FF] border border-gray-300 rounded-[8px] p-[4px] w-fit focus:outline-none"
+      className="bg-[#F0F5FF] border border-gray-300 rounded-[8px] p-[4px] w-fit focus:outline-none text-neutral-800"
       value={searchTerm}
       onChange={(e) => {
         handleSearch(e.target.value.toLowerCase());

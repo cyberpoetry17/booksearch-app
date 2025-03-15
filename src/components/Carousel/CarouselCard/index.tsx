@@ -24,7 +24,9 @@ const CarouselCard = ({ book, handleClick, index }: CarouselCard) => {
       ) : (
         <ImageLoader type="medium" />
       )}
-      <span className="max-w-[100px] text-center font-light">{title}</span>
+      <span className="max-w-[100px] text-center font-light text-neutral-800">
+        {title}
+      </span>
     </div>
   );
 };
