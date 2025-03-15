@@ -20,6 +20,11 @@ interface BookContextType {
 
   page: number;
   setPage: (page: number | ((prevPage: number) => number)) => void;
+
+  authors: string[];
+  setAuthors: (
+    authors: string[] | ((previousAuthors: string[]) => string[])
+  ) => void;
 }
 
 export const BookContext = createContext<BookContextType | undefined>(
@@ -34,6 +39,7 @@ export const BookProvider: React.FC<{ children: ReactNode }> = ({
   const [viewedBooks, setViewedBooks] = useState<ViewedBook[]>([]);
   const [displayedBooks, setDisplayedBooks] = useState<BookOverview[]>([]);
   const [page, setPage] = useState(1);
+  const [authors, setAuthors] = useState<string[]>([]);
 
   return (
     <BookContext.Provider
@@ -48,6 +54,8 @@ export const BookProvider: React.FC<{ children: ReactNode }> = ({
         setDisplayedBooks,
         page,
         setPage,
+        authors,
+        setAuthors,
       }}
     >
       {children}

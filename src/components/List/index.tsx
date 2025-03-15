@@ -1,19 +1,30 @@
-import NoData from "../../assets/icons/NoData";
 import { BookOverview, ViewedBook } from "../../types/index";
+import SpinningLoader from "../Loaders/LoadingScreen";
+import NoData from "../NoData";
 import ListItem from "./ListItem";
 
 type ListProps = {
   books: BookOverview[];
   isLoading?: boolean;
+  errorNoData?: boolean;
+  errorFetching?: boolean;
   handleClick: (viewedBook: ViewedBook, coverId?: number) => void;
 };
 
-const List = ({ books, handleClick }: ListProps) => {
+const BOOKS_NOT_FOUND_TEXT = "Ooops! Books not found!";
+
+const List = ({
+  books,
+  handleClick,
+  errorFetching = false,
+  isLoading = false,
+  errorNoData = false,
+}: ListProps) => {
   return (
-    <div className="flex flex-col w-full h-fit overflow-auto">
-      <ul className="px-7">
-        {books.length > 0 ? (
-          books
+    <div className="flex flex-col w-full overflow-auto">
+      {books.length > 0 ? (
+        <ul className="px-7">
+          {books
             .filter(
               (book) => book.cover_i !== undefined && book.cover_i !== null
             )
@@ -21,15 +32,25 @@ const List = ({ books, handleClick }: ListProps) => {
               <ListItem
                 book={book}
                 key={book.key ?? index}
-                handleClick={(viewedBook: ViewedBook, coverId?: number) =>
-                  handleClick(viewedBook, coverId)
+                handleClick={(viewedBook: ViewedBook) =>
+                  handleClick(viewedBook)
                 }
               />
-            ))
-        ) : (
-          <NoData />
-        )}
-      </ul>
+            ))}
+        </ul>
+      ) : (
+        <div className="flex justify-center items-center h-full">
+          {isLoading ? (
+            <SpinningLoader />
+          ) : errorFetching ? (
+            <NoData
+              text={"Ooops! Something went wrong while fetching books!"}
+            />
+          ) : (
+            errorNoData && <NoData text={BOOKS_NOT_FOUND_TEXT} />
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,17 +1,23 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
-import Search from "../components/Search";
-import List from "../components/List";
 import { BookOverview, ViewedBook } from "../types";
 import { useBooks } from "../hooks/useBooks";
 import { getKey } from "../components/List/utils";
 import BookHistory from "../components/BookHistory";
+import SpinningLoader from "../components/Loaders/LoadingScreen";
+import List from "../components/List";
+import Toolbar from "../components/Toolbar";
+import Button from "../components/Button";
+import { URL_BASE } from "../constants";
+
+const BOOKS_PER_PAGE = 7;
+const LOAD_MORE = "Load more";
 
 const Home = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-
   const {
     books,
+    searchTerm,
+    setSearchTerm,
     setBooks,
     displayedBooks,
     setDisplayedBooks,
@@ -19,41 +25,53 @@ const Home = () => {
     setPage,
     viewedBooks,
     setViewedBooks,
+    setAuthors,
   } = useBooks();
 
-  const [loading, setLoading] = useState(false);
-  const booksPerPage = 7;
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorNoData, setErrorNoData] = useState(false);
+
+  const [errorFetching, setErrorFetching] = useState(false);
 
   const navigate = useNavigate();
 
   const fetchBooks = useCallback(
     async (searchTerm: string) => {
-      setLoading(true);
+      setIsLoading(true);
 
       try {
         const response = await fetch(
-          `https://openlibrary.org/search.json?q=${searchTerm.trim()}`
+          `${URL_BASE}search.json?q=${searchTerm.trim()}`
         );
+        if (!response.ok) {
+          setErrorFetching(true);
+          throw new Error("Something went wrong!");
+        }
+
         const data = await response.json();
 
         const filteredBooks = (data.docs as BookOverview[]).filter(
           (book) => book.cover_i !== null && book.cover_i !== undefined
         );
 
+        if (!filteredBooks.length || !(data.docs as BookOverview[]).length)
+          setErrorNoData(true);
+        else setErrorNoData(false);
+
         setBooks(filteredBooks);
-        setDisplayedBooks(filteredBooks.slice(0, booksPerPage));
+        setDisplayedBooks(filteredBooks.slice(0, BOOKS_PER_PAGE));
       } catch (error) {
-        console.error("Error fetching books:", error);
+        console.error("Book overview fetching: ", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     },
     [setBooks, setDisplayedBooks]
   );
 
   const loadMoreBooks = () => {
-    const startIndex = page * booksPerPage;
-    const endIndex = startIndex + booksPerPage;
+    const startIndex = page * BOOKS_PER_PAGE;
+    const endIndex = startIndex + BOOKS_PER_PAGE;
 
     setDisplayedBooks((previous: BookOverview[]) => [
       ...previous,
@@ -63,48 +81,53 @@ const Home = () => {
     setPage((previousPage: number) => previousPage + 1);
   };
 
-  const handleClick = (viewedBook: ViewedBook, coverId?: number) => {
-    navigate(`/book/${getKey(viewedBook.key)}/${coverId}`);
+  const handleOnBookClick = (viewedBook: ViewedBook) => {
     if (!viewedBooks.find((book) => book.key === viewedBook.key))
       setViewedBooks((previous) => [...previous, viewedBook]);
+
+    setAuthors(
+      displayedBooks.find((book) => book.key === `${viewedBook.key}`)
+        ?.author_name ?? []
+    );
+
+    navigate(`/book/${getKey(viewedBook.key)}/${viewedBook.coverId}`);
   };
 
-  const handleSearch = () => {
-    fetchBooks(searchTerm);
-  };
+  const handleSearchTerm = (term: string) => setSearchTerm(term);
+
+  const onSearchButtonClick = () => fetchBooks(searchTerm);
 
   return (
-    <div className=" bg-[#EAF0F5] flex flex-col gap-9 overflow-hidden justify-between">
-      <div className="bg-white py-4 px-8 flex gap-1.5 ">
-        <Search
-          searchTerm={searchTerm}
-          handleSearch={(term) => setSearchTerm(term)}
-          placeholder="Search by Title"
-        />
-        <button
-          className="rounded-[8px] bg-[#0056FF] text-white cursor-pointer disabled:cursor-not-allowed shadow-lg p-1.5 px-2.5"
-          onClick={handleSearch}
-          disabled={!searchTerm}
-        >
-          Search
-        </button>
-      </div>
-
+    <div className="bg-[#EAF0F5] grid grid-rows-[auto_1fr_auto] overflow-hidden gap-2 pb-2 h-screen">
+      <Toolbar
+        searchTerm={searchTerm}
+        handleSearchTerm={handleSearchTerm}
+        onSearchButtonClick={onSearchButtonClick}
+      />
       {displayedBooks && (
-        <List books={displayedBooks} handleClick={handleClick} />
+        <List
+          isLoading={isLoading}
+          books={displayedBooks}
+          handleClick={handleOnBookClick}
+          errorNoData={errorNoData}
+          errorFetching={errorFetching}
+        />
       )}
       {displayedBooks.length > 0 && displayedBooks.length <= books.length && (
         <div className="flex justify-center items-center">
-          <button
-            className="p-1.5 px-2.5 w-fit rounded-[8px] bg-[#E7F0FC] text-[#497BDF] cursor-pointer disabled:cursor-not-allowed shadow-lg"
-            onClick={loadMoreBooks}
-            disabled={loading || displayedBooks.length === books.length}
-          >
-            {loading ? "Loading..." : "Load More"}
-          </button>
+          {isLoading ? (
+            <SpinningLoader />
+          ) : (
+            <Button
+              onClick={loadMoreBooks}
+              text={LOAD_MORE}
+              variant="load"
+              disabled={isLoading || displayedBooks.length === books.length}
+            />
+          )}
         </div>
       )}
-      <BookHistory />
+      <BookHistory handleClick={handleOnBookClick} />
     </div>
   );
 };

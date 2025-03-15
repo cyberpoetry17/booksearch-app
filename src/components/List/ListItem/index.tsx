@@ -3,10 +3,11 @@ import { BookOverview, ViewedBook } from "../../../types/";
 import { getLanguages } from "../utils";
 import ImageLoader from "../../Loaders/Image";
 import TextLoader from "../../Loaders/TextLoader";
+import { COVER_URL_BASE } from "../../../constants";
 
 type ListItemProps = {
   book: BookOverview;
-  handleClick: (viewedBook: ViewedBook, coverId?: number) => void;
+  handleClick: (viewedBook: ViewedBook) => void;
 };
 
 const ListItem = ({ book, handleClick }: ListItemProps) => {
@@ -16,14 +17,15 @@ const ListItem = ({ book, handleClick }: ListItemProps) => {
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const response = await fetch(
-          `https://covers.openlibrary.org/b/id/${cover_i}-S.jpg`
-        );
+        const response = await fetch(`${COVER_URL_BASE}${cover_i}-S.jpg`);
+        if (!response.ok) {
+          throw new Error("Something went wrong!");
+        }
         const blob = await response.blob();
         const imageUrls = URL.createObjectURL(blob);
         setImageUrl(imageUrls);
       } catch (error) {
-        console.log(error);
+        console.error(`Book overview image fetching: ${error} `);
       }
     };
 
@@ -35,10 +37,12 @@ const ListItem = ({ book, handleClick }: ListItemProps) => {
       key={key}
       className="bg-white flex my-4 min-h-[100px] h-fit min-w-[200px] rounded-2xl shadow-lg cursor-pointer overflow-hidden "
       onClick={() =>
-        handleClick(
-          { key: key, imageUrl: imageUrl ?? "", title: title },
-          cover_i
-        )
+        handleClick({
+          key: key,
+          imageUrl: imageUrl ?? "",
+          title: title,
+          coverId: cover_i?.toString() ?? "",
+        })
       }
     >
       <div className="w-fit p-3.5 flex items-center justify-center flex-shrink-0">

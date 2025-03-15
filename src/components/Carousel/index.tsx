@@ -1,12 +1,19 @@
 import { useState, useEffect, useRef } from "react";
-import { ViewedBook } from "../../../types";
+import { ViewedBook } from "../../types";
+import LeftArrowIcon from "../../assets/icons/LeftArrow";
+import RightArrowIcon from "../../assets/icons/RightArrow";
 import CarouselCard from "./CarouselCard";
+import CarouselButton from "./CarouselButton";
 
 type CarouselProps = {
   viewedBooks: ViewedBook[];
+  handleClick: (viewedBook: ViewedBook) => void;
 };
 
-const Carousel = ({ viewedBooks }: CarouselProps) => {
+const ITEM_WIDTH = 100;
+const GAP_WIDTH = 16;
+
+const Carousel = ({ viewedBooks, handleClick }: CarouselProps) => {
   const [startIndex, setStartIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -14,8 +21,8 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
   const calculateItemsPerPage = () => {
     if (carouselRef.current) {
       const containerWidth = carouselRef.current.offsetWidth;
-      const itemWidth = 100;
-      const gapWidth = 16;
+      const itemWidth = ITEM_WIDTH;
+      const gapWidth = GAP_WIDTH;
 
       const itemWithGap = itemWidth + gapWidth;
 
@@ -49,11 +56,11 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
 
     if (totalBooks === 0) return [];
 
-    let visibleBooks = viewedBooks.slice(startIndex, startIndex + itemsPerPage);
+    let visibleBooks;
 
-    if (viewedBooks.length < itemsPerPage) {
-      //
-    } else {
+    if (viewedBooks.length < itemsPerPage) visibleBooks = [...viewedBooks];
+    else {
+      visibleBooks = viewedBooks.slice(startIndex, startIndex + itemsPerPage);
       if (visibleBooks.length < itemsPerPage) {
         const overflowCount = itemsPerPage - visibleBooks.length;
         visibleBooks = visibleBooks.concat(viewedBooks.slice(0, overflowCount));
@@ -62,49 +69,45 @@ const Carousel = ({ viewedBooks }: CarouselProps) => {
 
     return visibleBooks;
   };
+
   const visibleBooks = getVisibleBooks(viewedBooks, startIndex, itemsPerPage);
 
-  const handlePrevious = () => {
+  const handlePrevious = () =>
     setStartIndex(
       (prev) => (prev - 1 + viewedBooks.length) % viewedBooks.length
     );
-  };
 
   const handleNext = () =>
     setStartIndex((prev) => (prev + 1) % viewedBooks.length);
 
-  console.log(startIndex);
   return (
-    <div className="flex items-center justify-center gap-4 w-full relative">
-      <button
-        className="text-2xl p-2 rounded-full bg-gray-200 hover:bg-gray-300 disabled:cursor-not-allowed disabled:bg-red w-[50px]"
+    <div className="flex items-center justify-center gap-4 min-w-[100px] ">
+      <CarouselButton
         onClick={handlePrevious}
         disabled={viewedBooks.length < itemsPerPage}
       >
-        {"<"}
-      </button>
+        <LeftArrowIcon className="w-[20px] h-[30px] cursor-pointer" />
+      </CarouselButton>
       <div
         ref={carouselRef}
         className="flex w-full overflow-hidden justify-start"
       >
-        <div className="flex gap-4 transition-transform duration-300">
+        <div className="flex gap-4">
           {visibleBooks.map((book, index) => (
             <CarouselCard
-              index={index}
-              url={book.imageUrl}
-              title={book.title}
+              book={book}
+              handleClick={handleClick}
+              index={book.key ?? index}
             />
           ))}
         </div>
       </div>
-
-      <button
-        className="text-2xl p-2 rounded-full bg-gray-200 hover:bg-gray-300 disabled:opacity-50 w-[50px] disabled:cursor-not-allowed"
+      <CarouselButton
         onClick={handleNext}
         disabled={viewedBooks.length < itemsPerPage}
       >
-        {">"}
-      </button>
+        <RightArrowIcon className="w-[20px] h-[30px] cursor-pointer" />
+      </CarouselButton>
     </div>
   );
 };
