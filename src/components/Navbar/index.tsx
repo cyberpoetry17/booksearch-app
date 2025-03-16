@@ -1,4 +1,5 @@
-import { matchPath, NavLink, useLocation } from "react-router";
+import { matchPath, useLocation } from "react-router";
+import { NavLink } from "react-router-dom";
 import HomeIcon from "../../assets/icons/Home";
 import BackArrowIcon from "../../assets/icons/BackArrow";
 
