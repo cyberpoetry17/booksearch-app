@@ -95,7 +95,10 @@ const Home = () => {
 
   const handleSearchTerm = (term: string) => setSearchTerm(term);
 
-  const onSearchButtonClick = () => fetchBooks(searchTerm);
+  const onSearchButtonClick = () => {
+    setPage(1);
+    fetchBooks(searchTerm);
+  };
 
   return (
     <div className="bg-[#EAF0F5] grid grid-rows-[auto_1fr_auto] overflow-hidden gap-2 pb-2 h-screen">
@@ -120,10 +123,11 @@ const Home = () => {
           ) : (
             <Button
               onClick={loadMoreBooks}
-              text={LOAD_MORE_TEXT}
               variant="load"
               disabled={isLoading || displayedBooks.length === books.length}
-            />
+            >
+              {LOAD_MORE_TEXT}
+            </Button>
           )}
         </div>
       )}

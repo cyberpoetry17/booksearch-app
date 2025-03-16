@@ -1,9 +1,11 @@
+import { ReactNode } from "react";
+
 type ButtonVariant = "default" | "load";
 
 type ButtonProps = {
   onClick: () => void;
   disabled?: boolean;
-  text: string;
+  children: ReactNode;
   variant?: ButtonVariant;
 };
 
@@ -12,13 +14,13 @@ const getStyles = (variant: ButtonVariant) => {
     case "default":
       return "bg-[#0056FF] text-white disabled:bg-neutral-300";
     case "load":
-      return "bg-[#E7F0FC] text-[#497BDF]";
+      return "bg-[#E7F0FC] text-[#497BDF] disabled:bg-neutral-300 disabled:text-white";
   }
 };
 
 const Button = ({
   onClick,
-  text,
+  children,
   variant = "default",
   disabled = false,
 }: ButtonProps) => {
@@ -30,7 +32,7 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {text}
+      {children}
     </button>
   );
 };

@@ -14,24 +14,23 @@ const Toolbar = ({
   searchTerm,
   handleSearchTerm,
   onSearchButtonClick,
-}: ToolbarProps) => {
-  return (
-    <div className="bg-white py-4 px-8 flex  h-fit w-full justify-between">
-      <div className="flex gap-1.5">
-        <Search
-          searchTerm={searchTerm}
-          handleSearch={handleSearchTerm}
-          placeholder={SEARCH_BY_TITLE_PLACEHOLDER}
-        />
-        <Button
-          onClick={onSearchButtonClick}
-          disabled={!searchTerm}
-          text={SEARCH_BUTTON_TEXT}
-        />
-      </div>
-      <img src="public/bookSearch.png" alt="Logo" className="h-[36px]"></img>
+}: ToolbarProps) => (
+  <div className="bg-white py-4 px-8 flex  h-fit w-full justify-between">
+    <div className="flex gap-1.5">
+      <Search
+        searchTerm={searchTerm}
+        handleSearch={handleSearchTerm}
+        placeholder={SEARCH_BY_TITLE_PLACEHOLDER}
+      />
+      <Button
+        onClick={onSearchButtonClick}
+        disabled={searchTerm.trim().length < 2}
+      >
+        {SEARCH_BUTTON_TEXT}
+      </Button>
     </div>
-  );
-};
+    <img src="public/bookSearch.png" alt="Logo" className="h-[36px]"></img>
+  </div>
+);
 
 export default Toolbar;

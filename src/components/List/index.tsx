@@ -12,6 +12,8 @@ type ListProps = {
 };
 
 const BOOKS_NOT_FOUND_TEXT = "Ooops! Books not found!";
+const ERROR_FETCHING_BOOKS_TEXT =
+  "Ooops! Something went wrong while fetching books!";
 
 const List = ({
   books,
@@ -43,9 +45,7 @@ const List = ({
           {isLoading ? (
             <SpinningLoader />
           ) : errorFetching ? (
-            <NoData
-              text={"Ooops! Something went wrong while fetching books!"}
-            />
+            <NoData text={ERROR_FETCHING_BOOKS_TEXT} />
           ) : (
             errorNoData && <NoData text={BOOKS_NOT_FOUND_TEXT} />
           )}
