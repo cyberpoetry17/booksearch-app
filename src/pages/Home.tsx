@@ -41,7 +41,7 @@ const Home = () => {
 
       try {
         const response = await fetch(
-          `${URL_BASE}search.json?q=${searchTerm.trim()}`
+          `${URL_BASE}search.json?title=${searchTerm.trim()}`
         );
         if (!response.ok) {
           setErrorFetching(true);
