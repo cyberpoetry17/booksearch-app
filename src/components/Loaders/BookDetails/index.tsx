@@ -4,6 +4,7 @@ type BookDetailsLoaderProps = {
 
 const BookDetailsLoader = ({ length = 8 }: BookDetailsLoaderProps) => {
   const elements = Array.from({ length: length }, (_, index) => index + 1);
+
   return (
     <>
       {elements.map((_, index) => (

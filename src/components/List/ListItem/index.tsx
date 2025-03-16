@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BookOverview, ViewedBook } from "../../../types/";
-import { getLanguages } from "../utils";
+import { getAuthors, getLanguages } from "../utils";
 import ImageLoader from "../../Loaders/Image";
 import TextLoader from "../../Loaders/TextLoader";
 import { COVER_URL_BASE } from "../../../constants";
@@ -54,17 +54,24 @@ const ListItem = ({ book, handleClick }: ListItemProps) => {
       </div>
       <div className="flex flex-1 flex-col p-3.5">
         {title ? (
-          <span className="font-semibold">{title}</span>
+          <span className="font-semibold text-neutral-800">{title}</span>
         ) : (
           <TextLoader />
         )}
         {author_name ? (
-          <span className="font-medium">{author_name}</span>
+          <span className="text-neutral-800">
+            {author_name.length === 1
+              ? `Author: ${author_name}`
+              : `Authors: ${getAuthors(author_name)}`}
+          </span>
         ) : (
           <TextLoader />
         )}
         {book.language ? (
-          <span className="font-light">{getLanguages(book)}</span>
+          <span className="font-light text-neutral-800">
+            {book.language.length === 1 ? "Language: " : "Languages: "}
+            {getLanguages(book)}
+          </span>
         ) : (
           <TextLoader />
         )}

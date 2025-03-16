@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router";
+import { BookProvider } from "./store";
 import "./App.css";
 import Home from "./pages/Home";
 import Details from "./pages/Details";
-import Navbar from "./components/Navbar";
-import { BookProvider } from "./store";
 import NotFound from "./pages/NotFound";
+import Navbar from "./components/Navbar";
 
 const App = () => (
   <div className="grid grid-cols-[auto_1fr] w-ful h-screen">

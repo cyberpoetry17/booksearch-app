@@ -1,5 +1,5 @@
 export interface BookOverview {
-  author_key: string[]; //snake case API
+  author_key: string[];
   author_name: string[];
   coverEditionKey: string;
   cover_i?: number;

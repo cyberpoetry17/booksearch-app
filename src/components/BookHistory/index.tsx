@@ -13,7 +13,9 @@ const BookHistory = ({ handleClick }: BookHistoryProps) => {
 
   return viewedBooks.length > 0 ? (
     <div className="w-auto h-fit shrink-0 bg-white p-4 items-end rounded-2xl mx-8">
-      <h1 className="font-bold pb-2">{RECENTLY_VIEWED_TEXT}</h1>
+      <h1 className="font-bold pb-2 text-neutral-700">
+        {RECENTLY_VIEWED_TEXT}
+      </h1>
       <Carousel viewedBooks={viewedBooks} handleClick={handleClick} />
     </div>
   ) : null;

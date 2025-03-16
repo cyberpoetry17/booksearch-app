@@ -11,7 +11,7 @@ import Button from "../components/Button";
 import { URL_BASE } from "../constants";
 
 const BOOKS_PER_PAGE = 7;
-const LOAD_MORE = "Load more";
+const LOAD_MORE_TEXT = "Load more";
 
 const Home = () => {
   const {
@@ -95,7 +95,10 @@ const Home = () => {
 
   const handleSearchTerm = (term: string) => setSearchTerm(term);
 
-  const onSearchButtonClick = () => fetchBooks(searchTerm);
+  const onSearchButtonClick = () => {
+    setPage(1);
+    fetchBooks(searchTerm);
+  };
 
   return (
     <div className="bg-[#EAF0F5] grid grid-rows-[auto_1fr_auto] overflow-hidden gap-2 pb-2 h-screen">
@@ -120,10 +123,11 @@ const Home = () => {
           ) : (
             <Button
               onClick={loadMoreBooks}
-              text={LOAD_MORE}
               variant="load"
               disabled={isLoading || displayedBooks.length === books.length}
-            />
+            >
+              {LOAD_MORE_TEXT}
+            </Button>
           )}
         </div>
       )}

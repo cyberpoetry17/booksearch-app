@@ -26,37 +26,47 @@ const Card = ({
     {!errorFetching && book ? (
       <>
         {book.title && (
-          <p className="font-bold text-[#0055ff6b] text-3xl">{book.title}</p>
+          <p className="font-bold text-neutral-600 text-3xl">{book.title}</p>
         )}
-        {authors?.length && (
-          <p className="font-bold text-[#0055ff6b] text-3xl font-serif p-2 ">
-            Authors: {authors.join(",")}
+        {authors && (
+          <p className="font-bold text-neutral-600 text-xl font-serif">
+            Authors: {authors.join(", ")}
           </p>
         )}
         {book.subtitle && (
-          <p className="font-bold font-serif ">{book.subtitle}</p>
+          <p className="font-bold font-serif text-neutral-600">
+            {book.subtitle}
+          </p>
         )}
         {book.created?.value && (
-          <p className="font-bold font-serif ">{book.created.value}</p>
+          <p className="font-bold font-serif text-neutral-600">
+            Date created: {new Date(book.created.value).toLocaleDateString()}
+          </p>
         )}
         {book.first_publish_date && (
-          <p className="font-bold font-serif ">
+          <p className="font-bold font-serif text-neutral-600">
             First publish date: {book.first_publish_date}
           </p>
         )}
         {book.revision && (
-          <p className="font-bold font-serif">Revision: {book.revision}</p>
+          <p className="font-bold font-serif text-neutral-600">
+            Revision: {book.revision}
+          </p>
         )}
         {book.latest_revision && (
-          <p className="font-bold font-serif ">
+          <p className="font-bold font-serif text-neutral-600">
             Latest revision: {book.latest_revision}
           </p>
         )}
         {book.description ? (
           typeof book.description === "string" ? (
-            <p className="font-bold font-serif">{book.description}</p>
+            <p className="font-bold font-serif text-neutral-600">
+              {book.description}
+            </p>
           ) : (
-            <p className="font-bold font-serif">{book.description.value}</p>
+            <p className="font-bold font-serif text-neutral-600">
+              {book.description.value}
+            </p>
           )
         ) : null}
       </>

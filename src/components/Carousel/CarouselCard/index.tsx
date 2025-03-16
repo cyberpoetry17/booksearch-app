@@ -9,6 +9,7 @@ type CarouselCard = {
 
 const CarouselCard = ({ book, handleClick, index }: CarouselCard) => {
   const { imageUrl, title } = book;
+
   return (
     <div
       className="flex flex-col h-[150px] max-w-[100px] items-center cursor-pointer p-2"
@@ -19,12 +20,14 @@ const CarouselCard = ({ book, handleClick, index }: CarouselCard) => {
         <img
           src={imageUrl}
           alt={`Book ${book.key}`}
-          className="w-[70px] h-[100px] rounded-sm "
+          className="w-[70px] h-[100px] rounded-sm shrink-0"
         />
       ) : (
         <ImageLoader type="medium" />
       )}
-      <span className="max-w-[100px] text-center font-light">{title}</span>
+      <span className="max-w-[100px] text-center font-light text-neutral-800">
+        {title}
+      </span>
     </div>
   );
 };

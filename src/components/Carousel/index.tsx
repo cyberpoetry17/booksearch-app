@@ -10,6 +10,7 @@ type CarouselProps = {
   handleClick: (viewedBook: ViewedBook) => void;
 };
 
+const ICON_STYLES = "w-[20px] h-[30px]";
 const ITEM_WIDTH = 100;
 const GAP_WIDTH = 16;
 
@@ -30,11 +31,9 @@ const Carousel = ({ viewedBooks, handleClick }: CarouselProps) => {
 
       const remainingSpace = containerWidth - itemsInView * itemWithGap;
 
-      if (remainingSpace >= itemWidth) {
-        setItemsPerPage(itemsInView + 1);
-      } else {
-        setItemsPerPage(itemsInView);
-      }
+      if (remainingSpace >= itemWidth) setItemsPerPage(itemsInView + 1);
+      else setItemsPerPage(itemsInView);
+
       setStartIndex((prev) => prev);
     }
   };
@@ -86,7 +85,7 @@ const Carousel = ({ viewedBooks, handleClick }: CarouselProps) => {
         onClick={handlePrevious}
         disabled={viewedBooks.length < itemsPerPage}
       >
-        <LeftArrowIcon className="w-[20px] h-[30px] cursor-pointer" />
+        <LeftArrowIcon className={`${ICON_STYLES} cursor-pointer`} />
       </CarouselButton>
       <div
         ref={carouselRef}
@@ -106,7 +105,7 @@ const Carousel = ({ viewedBooks, handleClick }: CarouselProps) => {
         onClick={handleNext}
         disabled={viewedBooks.length < itemsPerPage}
       >
-        <RightArrowIcon className="w-[20px] h-[30px] cursor-pointer" />
+        <RightArrowIcon className={`${ICON_STYLES} cursor-pointer`} />
       </CarouselButton>
     </div>
   );
